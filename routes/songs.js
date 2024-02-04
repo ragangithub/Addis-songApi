@@ -56,13 +56,18 @@ router.patch("/:id", getSong, async (req, res) => {
   }
 });
 
-// Deleting One
-router.delete("/:id", getSong, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
-    await res.song.remove();
-    res.json({ message: "Deleted Song" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const songId = req.params.id;
+    const song = await Song.findByIdAndDelete(songId);
+
+    if (!song) {
+      return res.status(404).json({ error: "Song not found!" });
+    } else {
+      return res.status(200).json({ message: "Deleted Song" });
+    }
+  } catch (error) {
+    return res.status(500).json({ error });
   }
 });
 
