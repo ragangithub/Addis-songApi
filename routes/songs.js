@@ -71,6 +71,27 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// number of songs in each album
+router.get("/albums", async (req, res) => {
+  try {
+    const albums = await Song.distinct("album");
+    const albumStats = [];
+
+    for (const albumName of albums) {
+      const songCount = await Song.countDocuments({ album: albumName });
+
+      albumStats.push({
+        album: albumName,
+        songCount,
+      });
+    }
+
+    return res.status(200).json(albumStats);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 async function getSong(req, res, next) {
   let song;
   try {
