@@ -2,6 +2,52 @@ const express = require("express");
 const router = express.Router();
 const Song = require("../models/song");
 
+// generate statistics
+router.get("/statistics", async (req, res) => {
+  try {
+    const songs = await Song.find().exec();
+    const totalSongs = songs.length;
+    const albums = [...new Set(songs.map((song) => song.album))];
+    const totalAlbums = albums.length;
+    const artists = [...new Set(songs.map((song) => song.artist))];
+    const totalArtists = artists.length;
+
+    const genres = [...new Set(songs.map((song) => song.genre))];
+    const totalGenres = genres.length;
+
+    return res.status(200).json({
+      totalSongs,
+      totalArtists,
+      totalAlbums,
+      totalGenres,
+    });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
+
+// number of songs in each album
+router.get("/albums", async (req, res) => {
+  try {
+    const albums = await Song.distinct("album");
+    const albumStats = [];
+    console.log("albums", albums);
+
+    for (const albumName of albums) {
+      const songCount = await Song.countDocuments({ album: albumName });
+
+      albumStats.push({
+        album: albumName,
+        songCount,
+      });
+    }
+
+    return res.status(200).json(albumStats);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Getting all
 router.get("/", async (req, res) => {
   try {
@@ -68,27 +114,6 @@ router.delete("/:id", async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({ error });
-  }
-});
-
-// number of songs in each album
-router.get("/albums", async (req, res) => {
-  try {
-    const albums = await Song.distinct("album");
-    const albumStats = [];
-
-    for (const albumName of albums) {
-      const songCount = await Song.countDocuments({ album: albumName });
-
-      albumStats.push({
-        album: albumName,
-        songCount,
-      });
-    }
-
-    return res.status(200).json(albumStats);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
   }
 });
 
