@@ -102,20 +102,6 @@ For more information on how to clone or fork a repository:
 
 - <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository">How to clone a repo</a>
 - <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo">How to fork a repo</a>
-<!-- 
-Add a .env file in the root directory with the provided information, follow these instructions:
-
-
-- Open a text editor or an integrated development environment (IDE) of your choice.
-- Create a new file and save it in the root directory of your project (the top-level directory).
-- Name the file .env (with a leading dot) to ensure it is recognized as an environment file.
-- Inside the .env file, add the following lines:
-
-````sh
-MONGO_USERNAME="your mongo db username"
-MONGO_PASSWORD="your mongo db password"
-SERVER_PORT=your host number
-``` -->
 
 ### Install
 
@@ -141,7 +127,7 @@ To run the project, execute the following command:
 
 Future changes:
 
-- Save audio file for  song
+- Add authentication
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -170,8 +156,6 @@ Give a ⭐️ if you like this project!
 - Thanks to Addis Software
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- LICENSE -->
 
