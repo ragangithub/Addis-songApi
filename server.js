@@ -1,12 +1,12 @@
-// require("dotenv").config();
-
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { corsOptions } = require("./config/corsOptions.js");
 
-mongoose.connect("mongodb://localhost/songs", {
+const { config } = require("./config/config");
+
+mongoose.connect(`${config.mongo.url}/songs`, {
   retryWrites: true,
   w: "majority",
 });
@@ -20,4 +20,4 @@ app.use(cors(corsOptions));
 const songsRouter = require("./routes/songs");
 app.use("/songs", songsRouter);
 
-app.listen(8080, () => console.log("Server Started"));
+app.listen(config.server.port, () => console.log("Server Started"));
